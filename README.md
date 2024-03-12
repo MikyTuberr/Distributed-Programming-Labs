@@ -1,3 +1,5 @@
-## Doubly Linked List Implementation in C
+# Laboratory 1: Doubly Linked List in C
+This laboratory focuses on implementing a doubly linked list data structure in the C programming language. 
 
-This repository contains an implementation of a doubly linked list in C, which stores dynamic strings sorted in reverse alphabetical order.
+# Laboratory 2: Static and Dynamic Libraries in C on Linux
+Laboratory 2 delves into the realm of static and dynamic libraries in C on the Linux operating system. 
