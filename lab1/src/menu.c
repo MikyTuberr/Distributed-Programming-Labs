@@ -48,7 +48,7 @@ void handle_input() {
         scanf("%d", &choice);
         getchar();
         if(choice >= 1 && choice <= 4) {
-            (func_arr[choice - 1])();
+            func_arr[choice - 1]();
         }
         else {
             system("clear");
