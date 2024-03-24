@@ -5,7 +5,7 @@
 #include "dcalc1.h"
 #include "dcalc2.h"
 
-int main() {
+int main(int argc,  char** argv, char** envp) {
     char* red = "\033[0;31m";
     char* blue = "\033[0;34m";
     char* purple = "\033[0;35m";
