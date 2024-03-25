@@ -4,18 +4,14 @@ commands=(
     "wget -O large_file https://ash-speed.hetzner.com/100MB.bin"
     "ping -c 10 facebook.com"
     "sleep 5"
-    "ls -l"
-    "date"
-    "df -h"
-    "whoami"
+    "openssl speed -elapsed -evp sha256"
 )
 
 execute_command_parallel() {
     "$@" &
 }
 
-for command in "${commands[@]}"; 
-do
+for command in "${commands[@]}"; do
     execute_command_parallel $command
 done
 
