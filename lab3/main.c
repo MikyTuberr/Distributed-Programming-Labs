@@ -17,8 +17,7 @@ void execute_command_parallel(const char *command) {
         exit(EXIT_FAILURE);
     } 
     else if (pid == 0) {
-        char *args[] = {"/usr/bin/bash", "-c", command, NULL};
-        execv(args[0], args);
+        execl("/usr/bin/bash", "bash", "-c", command, (char*)NULL);
         perror("execl");
         exit(EXIT_FAILURE);
     } 
@@ -48,7 +47,7 @@ void wait_for_processes(int num_commands) {
 
 int main(int argc, char** argv, char** envp) {
     const char *commands[] = {
-        "wget -O large_file https://ash-speed.hetzner.com/100MB.bin",    
+        "wget -O large_file https://ping.virtua.cloud/100MB.bin",    
         "ping -c 10 facebook.com",                                       
         "sleep 5 && echo ENDED WAITING",                                                                                                                                                                  
         "openssl speed -elapsed -evp sha256"     
