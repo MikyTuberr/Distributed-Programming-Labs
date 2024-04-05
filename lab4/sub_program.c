@@ -19,11 +19,12 @@ void print_priority_info() {
 }
 
 DWORD WINAPI do_some_work(LPVOID lpParam) {
+    DWORD tid = GetCurrentThreadId();
     int sum = 0;
-    for (int i = 1; i <= 1000; ++i) {
+    for (int i = 1; i <= tid % 1000; ++i) {
         sum += i * i;
     }
-    printf("Thread %lu finished work. Sum of squares: %d\n", GetCurrentThreadId(), sum);
+    printf("Thread %lu finished work. Sum of squares: %d\n", tid, sum);
     Sleep(60000); 
     return 0;
 }
