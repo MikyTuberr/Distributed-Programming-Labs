@@ -12,6 +12,45 @@ WCHAR szWindowClass[MAX_LOADSTRING];
 HWND g_hwndMove, g_hwndSize, g_hwndPaint, g_hwndClear;
 FILE* console;
 
+#define WINDOW_WIDTH 600
+#define WINDOW_HEIGHT 400
+
+#define CREATE_WINDOW(hWnd, szWindowClass, szTitle, hInstance) \
+        hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, \
+                CW_USEDEFAULT, WINDOW_WIDTH, WINDOW_HEIGHT, nullptr, nullptr, hInstance, nullptr); \
+                if (!hWnd) return FALSE;
+
+#define BUTTON_CLASS L"BUTTON"
+#define BUTTON_STYLE WS_VISIBLE | WS_CHILD | BS_CHECKBOX
+#define BUTTON_WIDTH 100
+#define BUTTON_HEIGHT 50
+
+#define MOVE_NAME L"WM_MOVE"
+#define MOVE_XPOS 10
+#define MOVE_YPOS 10
+
+#define PAINT_NAME L"WM_PAINT"
+#define PAINT_XPOS MOVE_XPOS
+#define PAINT_YPOS MOVE_YPOS + BUTTON_HEIGHT + 10
+
+#define SIZE_NAME L"WM_SIZE"
+#define SIZE_XPOS PAINT_XPOS
+#define SIZE_YPOS PAINT_YPOS + BUTTON_HEIGHT + 10
+
+#define CLEAR_NAME L"CLEAR"
+#define CLEAR_XPOS SIZE_XPOS
+#define CLEAR_YPOS SIZE_YPOS + BUTTON_HEIGHT + 10
+
+#define CREATE_BUTTON(hWnd, hwnd, name, x, y, hInstance) \
+    hwnd = CreateWindowW(BUTTON_CLASS, name, BUTTON_STYLE, x, y, \
+        BUTTON_WIDTH, BUTTON_HEIGHT, hWnd, nullptr, hInstance, nullptr); \
+    if (!hwnd) return FALSE;
+
+#define CREATE_PUSHBUTTON(hWnd, hwnd, name, x, y, hInstance) \
+    hwnd = CreateWindowW(BUTTON_CLASS, name,  WS_VISIBLE | WS_CHILD | BS_PUSHBUTTON, x, y, \
+        BUTTON_WIDTH, BUTTON_HEIGHT, hWnd, nullptr, hInstance, nullptr); \
+    if (!hwnd) return FALSE;
+
 ATOM MyRegisterClass(HINSTANCE hInstance);
 BOOL InitInstance(HINSTANCE, int);
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
@@ -80,37 +119,14 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
 BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 {
     hInst = hInstance;
+    HWND hWnd;
 
-    HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
-        1200, 300, 500, 500, nullptr, nullptr, hInstance, nullptr);
-    if (!hWnd)
-    {
-        return FALSE;
-    }
+    CREATE_WINDOW(hWnd, szWindowClass, szTitle, hInstance);
 
-    g_hwndMove = CreateWindowEx(NULL, L"BUTTON", L"WM_MOVE", WS_VISIBLE | WS_CHILD | BS_CHECKBOX, 10, 10, 100, 50, hWnd, NULL, NULL, NULL);
-    if (!g_hwndMove)
-    {
-        return FALSE;
-    }
-
-    g_hwndPaint = CreateWindowEx(NULL, L"BUTTON", L"WM_PAINT", WS_VISIBLE | WS_CHILD | BS_CHECKBOX, 10, 70, 100, 50, hWnd, NULL, NULL, NULL);
-    if (!g_hwndPaint)
-    {
-        return FALSE;
-    }
-
-    g_hwndSize = CreateWindowEx(NULL, L"BUTTON", L"WM_SIZE", WS_VISIBLE | WS_CHILD | BS_CHECKBOX, 10, 130, 100, 50, hWnd, NULL, NULL, NULL);
-    if (!g_hwndSize)
-    {
-        return FALSE;
-    }
-
-    g_hwndClear = CreateWindowEx(NULL, L"BUTTON", L"CLEAR", WS_VISIBLE | WS_CHILD | BS_PUSHBUTTON, 10, 190, 100, 50, hWnd, NULL, NULL, NULL);
-    if (!g_hwndClear)
-    {
-        return FALSE;
-    }
+    CREATE_BUTTON(hWnd, g_hwndMove, MOVE_NAME, MOVE_XPOS, MOVE_YPOS, hInstance);
+    CREATE_BUTTON(hWnd, g_hwndPaint, PAINT_NAME, PAINT_XPOS, PAINT_YPOS, hInstance);
+    CREATE_BUTTON(hWnd, g_hwndSize, SIZE_NAME, SIZE_XPOS, SIZE_YPOS, hInstance);
+    CREATE_PUSHBUTTON(hWnd, g_hwndClear, CLEAR_NAME, CLEAR_XPOS, CLEAR_YPOS, hInstance);
 
     AllocConsole();
     freopen_s(&console, "CONOUT$", "w", stdout);
